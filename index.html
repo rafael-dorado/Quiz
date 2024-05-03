@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Quiz</title>
+</head>
+<body>
+    <div id="container">
+
+        <h1>Quiz sobre Banco de Dados, HTML e JavaScript</h1>
+        <div id="pergunta"></div>
+        <input type="text" id="resposta" placeholder="Digite sua resposta">
+        <button id="verificar">Verificar Resposta</button>
+        <div id="resultado"></div>
+        <div id="acertos-erros"></div>
+    </div>
+    
+    <script>
+        const quiz = [
+            {
+                pergunta: "Qual linguagem de marcação é usada para criar a estrutura de uma página web?",
+                resposta: "HTML"
+            },
+            {
+                pergunta: "Qual comando é usado para selecionar dados de um banco de dados SQL?",
+                resposta: "SELECT"
+            },
+            {
+                pergunta: "Qual das seguintes opções é uma linguagem de programação usada para tornar as páginas da web interativas?",
+                resposta: "JavaScript"
+            }
+        ];
+
+        let indicePergunta = 0;
+        let acertos = 0;
+        let erros = 0;
+
+        const perguntaDiv = document.getElementById('pergunta');
+        const respostaInput = document.getElementById('resposta');
+        const resultadoDiv = document.getElementById('resultado');
+        const acertosErrosDiv = document.getElementById('acertos-erros');
+
+        function exibirPergunta() {
+            perguntaDiv.textContent = quiz[indicePergunta].pergunta;
+        }
+
+        function verificarResposta() {
+            const respostaUsuario = respostaInput.value.trim();
+            const respostaCorreta = quiz[indicePergunta].resposta;
+
+            if (respostaUsuario.toUpperCase() === respostaCorreta.toUpperCase()) {
+                resultadoDiv.textContent = "Resposta correta!";
+                acertos++;
+            } else {
+                resultadoDiv.textContent = "Resposta incorreta. Tente novamente.";
+                erros++;
+            }
+
+            
+            indicePergunta++;
+            if (indicePergunta < quiz.length) {
+                exibirPergunta();
+                respostaInput.value = "";
+            } else {
+                perguntaDiv.textContent = "Quiz finalizado!";
+                respostaInput.style.display = "none";
+                document.getElementById('verificar').style.display = "none";
+                exibirAcertosErros();
+            }
+        }
+
+        function exibirAcertosErros() {
+            acertosErrosDiv.textContent = `Parabéns! Total de Acertos: ${acertos} ,   Seus erros : ${erros}`;
+        }
+
+        exibirPergunta();
+
+        document.getElementById('verificar').addEventListener('click', verificarResposta);
+    </script>
+    <script src="server.js"></script>
+</body>
+</html>
